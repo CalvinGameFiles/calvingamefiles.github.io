@@ -413,7 +413,7 @@
   // Click a thumbnail: play it right on the page when the site is online.
   // YouTube refuses to play inside a page opened from a file (Error 153), so then it opens on YouTube instead.
   if (location.protocol !== "file:") {
-    document.querySelectorAll(".play").forEach(a => a.addEventListener("click", e => {
+    document.querySelectorAll("a.frame.play").forEach(a => a.addEventListener("click", e => {
       e.preventDefault();
       const f = document.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + a.dataset.id + "?autoplay=1";
