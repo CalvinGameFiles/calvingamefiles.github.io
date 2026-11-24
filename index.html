@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CalvinGameFiles</title>
+<meta name="description" content="CalvinGameFiles - original FNAF songs, AMVs, GameWorldsCollide, Halo chess fights and homemade Ultimate Custom Night challenges.">
+<link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-dark: #06221f;
+    --teal: #0d4a42;
+    --teal-light: #1f8a78;
+    --green: #2fbf3a;
+    --green-dark: #156b1e;
+    --flame-red: #ff4a1c;
+    --flame-orange: #ff8a1f;
+    --flame-yellow: #ffcf3f;
+    --text: #e9fff6;
+    --muted: #9fd8c7;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    margin: 0;
+    font-family: 'Rubik', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--teal-dark);
+    overflow-x: hidden;
+  }
+
+  /* swirling teal smoke, like the channel logo background */
+  .bg {
+    position: fixed; inset: -20%;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse 40% 30% at 20% 25%, #1f8a7855, transparent 70%),
+      radial-gradient(ellipse 35% 40% at 80% 20%, #12655a66, transparent 70%),
+      radial-gradient(ellipse 50% 35% at 65% 80%, #1f8a7844, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 15% 85%, #0d4a4288, transparent 70%),
+      linear-gradient(160deg, #0a3a34, #06221f 60%, #041816);
+    animation: drift 40s ease-in-out infinite alternate;
+  }
+  .bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-radial-gradient(circle at 30% 40%, transparent 0 38px, #2aa18a14 40px 44px, transparent 46px 90px);
+    filter: blur(2px);
+    animation: spin 120s linear infinite;
+  }
+  @keyframes drift { to { transform: translate(4%, -3%) scale(1.05); } }
+  @keyframes spin  { to { transform: rotate(360deg); } }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 6vw;
+    background: #041816cc;
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--green-dark);
+  }
+  nav .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Bangers', cursive; font-size: 1.7rem; letter-spacing: 1px;
+    color: var(--flame-red); text-decoration: none;
+    text-shadow: 2px 2px 0 #000;
+  }
+  nav .brand img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--green); }
+  nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
+  nav a.link { color: var(--muted); text-decoration: none; font-weight: 600; }
+  nav a.link:hover { color: var(--flame-yellow); }
+
+  /* hero */
+  .hero {
+    min-height: min(88vh, 760px);
+    display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 5vw;
+    padding: 60px 8vw;
+  }
+  .logo-wrap { position: relative; width: min(380px, 70vw); aspect-ratio: 1; }
+  .logo-wrap::before {               /* flame halo */
+    content: ""; position: absolute; inset: -18px; border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--flame-red), var(--flame-orange), var(--flame-yellow), var(--flame-orange), var(--flame-red), var(--flame-yellow), var(--flame-red));
+    filter: blur(22px);
+    animation: spin 6s linear infinite, flicker 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes flicker { from { opacity: .75; } to { opacity: 1; } }
+  .logo-wrap img {
+    position: relative; width: 100%; height: 100%; border-radius: 50%;
+    border: 6px solid var(--green);
+    box-shadow: 0 0 0 4px #000;
+  }
+  .tag-label {
+    font-weight: 800; text-transform: uppercase; letter-spacing: 4px;
+    color: var(--green); font-size: .95rem; margin: 0;
+  }
+  .gamertag {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: .95; margin: 8px 0 18px;
+    color: var(--flame-red);
+    text-shadow: 3px 3px 0 #000, 0 0 24px #ff8a1f99;
+    letter-spacing: 2px;
+  }
+  .hero p.blurb { max-width: 560px; font-size: 1.15rem; line-height: 1.6; color: var(--muted); }
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 22px 0; }
+  .stat {
+    background: #0d4a42aa; border: 2px solid var(--teal-light); border-radius: 14px;
+    padding: 10px 18px; min-width: 110px; text-align: center;
+  }
+  .stat b { display: block; font-family: 'Bangers', cursive; font-size: 2rem; color: var(--flame-yellow); letter-spacing: 1px; }
+  .stat span { font-size: .8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+  .btn {
+    display: inline-block; padding: 14px 28px; border-radius: 999px;
+    font-family: 'Bangers', cursive; font-size: 1.5rem; letter-spacing: 1.5px;
+    text-decoration: none; color: #fff;
+    background: linear-gradient(180deg, var(--green), var(--green-dark));
+    border: 3px solid #000; box-shadow: 0 5px 0 #000, 0 0 20px #2fbf3a66;
+    transition: transform .1s, box-shadow .1s;
+  }
+  .btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 #000, 0 0 30px #ff8a1f88; }
+  .btn.alt { background: linear-gradient(180deg, var(--flame-orange), var(--flame-red)); margin-left: 10px; }
+
+  /* sections */
+  section.block { padding: 70px 8vw; }
+  h2 {
+    font-family: 'Bangers', cursive; font-size: clamp(2.2rem, 5vw, 3.4rem);
+    letter-spacing: 2px; margin: 0 0 8px;
+    color: var(--flame-orange); text-shadow: 3px 3px 0 #000;
+  }
+  .sub { color: var(--muted); margin: 0 0 34px; }
+
+  .about {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;
+  }
+  .card {
+    background: linear-gradient(160deg, #0d4a42cc, #06221fcc);
+    border: 2px solid var(--green-dark); border-radius: 18px;
+    padding: 22px; transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--flame-orange); }
+  .card .icon { font-size: 2rem; }
+  .card h3 { font-family: 'Bangers', cursive; font-size: 1.6rem; letter-spacing: 1px; margin: 8px 0 6px; color: var(--green); }
+  .card p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+  .videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; }
+  .video {
+    background: #041816; border-radius: 18px; overflow: hidden;
+    border: 3px solid var(--green-dark);
+    box-shadow: 0 10px 30px #0008;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .video:hover { border-color: var(--flame-orange); box-shadow: 0 10px 40px #ff4a1c44; }
+  .video .frame { position: relative; aspect-ratio: 16/9; background: #000; }
+  .video .play { display: block; cursor: pointer; }
+  .video .play img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .3s, filter .3s; }
+  .video .play:hover img { transform: scale(1.05); filter: brightness(1.1); }
+  .pbtn {
+    position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; transform: translate(-50%,-50%);
+    border-radius: 50%; background: linear-gradient(180deg, var(--flame-orange), var(--flame-red));
+    border: 4px solid #000; box-shadow: 0 0 25px #ff8a1fbb; transition: transform .15s;
+  }
+  .pbtn::after { content: ""; position: absolute; left: 28px; top: 19px; border-left: 26px solid #fff; border-top: 15px solid transparent; border-bottom: 15px solid transparent; }
+  .video .play:hover .pbtn { transform: translate(-50%,-50%) scale(1.12); }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video .info { padding: 14px 18px 18px; }
+  .video h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .video .meta { color: var(--flame-yellow); font-weight: 600; font-size: .9rem; }
+  .badge {
+    display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 6px; margin-right: 6px;
+    background: var(--flame-red); color: #fff; text-transform: uppercase;
+  }
+  .badge.short { background: var(--green-dark); }
+
+  .shorts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 280px)); gap: 26px; margin-top: 26px; justify-content: start; }
+  .shorts .frame { aspect-ratio: 9/16; }
+
+
+  /* games */
+  .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 26px; }
+  .game {
+    display: flex; flex-direction: column;
+    background: linear-gradient(160deg, #0d4a42ee, #06221fee);
+    border: 3px solid var(--green-dark); border-radius: 18px; overflow: hidden;
+    box-shadow: 0 10px 30px #0008; transition: border-color .2s, transform .2s;
+  }
+  .game:hover { border-color: var(--flame-orange); transform: translateY(-4px); }
+  .game .shot { position: relative; aspect-ratio: 16/9; background: #000; }
+  .game .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .plat {
+    position: absolute; top: 10px; right: 10px; padding: 5px 10px; border-radius: 8px;
+    font-weight: 800; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase;
+    border: 2px solid #000; color: #fff;
+  }
+  .plat.both { background: var(--green-dark); }
+  .plat.pc { background: var(--flame-red); }
+  .game .body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .game h3 { font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 1.5px; margin: 0; color: var(--flame-yellow); text-shadow: 2px 2px 0 #000; }
+  .game p { margin: 0; color: var(--muted); line-height: 1.55; }
+  .game .note { color: var(--text); font-weight: 600; }
+  .game .tiny { font-size: .85rem; opacity: .85; }
+  .warn {
+    background: #ff4a1c22; border: 2px solid var(--flame-red); border-radius: 12px;
+    padding: 10px 14px; color: #ffd8cc; line-height: 1.45;
+  }
+  .warn b { color: #fff; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 6px; }
+  .gbtn {
+    flex: 1 1 170px; text-align: center; padding: 12px 16px; border-radius: 12px;
+    font-family: 'Bangers', cursive; font-size: 1.35rem; letter-spacing: 1.2px;
+    color: #fff; text-decoration: none; border: 3px solid #000; box-shadow: 0 4px 0 #000;
+    transition: transform .1s, box-shadow .1s; cursor: pointer;
+  }
+  .gbtn:hover { transform: translateY(2px); box-shadow: 0 2px 0 #000; }
+  .gbtn.dl { background: linear-gradient(180deg, var(--green), var(--green-dark)); }
+  .gbtn.play { background: linear-gradient(180deg, var(--flame-orange), var(--flame-red)); }
+  .how {
+    margin-top: 30px; background: #041816cc; border: 2px dashed var(--teal-light);
+    border-radius: 16px; padding: 18px 24px; max-width: 640px;
+  }
+  .how h3 { margin: 0 0 8px; color: var(--green); }
+  .how ol { margin: 0; padding-left: 22px; color: var(--muted); line-height: 1.7; }
+
+  footer {
+    text-align: center; padding: 40px 8vw 50px;
+    border-top: 2px solid var(--green-dark); background: #041816cc;
+    color: var(--muted);
+  }
+  footer .gt { font-family: 'Bangers', cursive; font-size: 2rem; color: var(--flame-red); letter-spacing: 1.5px; text-shadow: 2px 2px 0 #000; }
+
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .hero p.blurb { margin-inline: auto; }
+    .stats { justify-content: center; }
+    nav ul { display: none; }
+    .btn.alt { margin: 12px 0 0; }
+    .games { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bg, .bg::after, .logo-wrap::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<nav>
+  <a class="brand" href="#top"><img src="logo.jpg" alt="">CalvinGameFiles</a>
+  <ul>
+    <li><a class="link" href="#about">About</a></li>
+    <li><a class="link" href="#games">Games</a></li>
+    <li><a class="link" href="#videos">Top Videos</a></li>
+    <li><a class="link" href="https://www.youtube.com/@CalvinGameFiles" target="_blank" rel="noopener">YouTube</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <div class="logo-wrap"><img src="logo.jpg" alt="CalvinGameFiles logo: a green controller on fire"></div>
+  <div>
+    <p class="tag-label">Gamer Tag</p>
+    <h1 class="gamertag">CalvinGameFiles</h1>
+    <p class="blurb">
+      Welcome to the files! I make FNAF songs, music videos and AMVs, build my own
+      Ultimate Custom Night challenges, put Halo fights on a 4 player chessboard,
+      and battle FNAF against Minecraft. Grab a controller and stay a while,
+      the animatronics are watching.
+    </p>
+    <div class="stats">
+      <div class="stat"><b>77</b><span>Videos</span></div>
+      <div class="stat"><b>5K+</b><span>Views</span></div>
+      <div class="stat"><b>55</b><span>Subscribers</span></div>
+    </div>
+    <a class="btn" href="https://www.youtube.com/@CalvinGameFiles?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
+    <a class="btn alt" href="#videos">Watch Now</a>
+    <a class="btn alt" href="#games">My Games</a>
+  </div>
+</header>
+
+<section class="block" id="about">
+  <h2>What's in the Files</h2>
+  <p class="sub">Gaming, horror and original music, all in one channel.</p>
+  <div class="about">
+    <div class="card"><div class="icon">🎤</div><h3>Original FNAF Songs</h3><p>"We Will Come For You", "Broken", "Baby's Nightmare Circus" and more, plus covers with my siblings.</p></div>
+    <div class="card"><div class="icon">⚔️</div><h3>GameWorldsCollide</h3><p>My own story where game worlds smash together, with its own opening theme and epic battles.</p></div>
+    <div class="card"><div class="icon">🎬</div><h3>AMVs &amp; Animations</h3><p>The Chosen One, The Second Coming, Dark Lord, Victim, and FNAF characters reimagined as humans.</p></div>
+    <div class="card"><div class="icon">🎮</div><h3>Challenges &amp; Gameplay</h3><p>Homemade UCN challenges, Halo fights in 4 player chess, FNAF vs Minecraft and horror games you pick.</p></div>
+  </div>
+</section>
+
+<section class="block" id="games">
+  <h2>My Games</h2>
+  <p class="sub">Games I made myself. Free to play, free to download!</p>
+
+  <div class="games">
+
+    <article class="game">
+      <div class="shot"><img src="games/darknights.jpg" alt="Dark Nights title screen" loading="lazy"><span class="plat both">PC + Phone</span></div>
+      <div class="body">
+        <h3>Dark Nights</h3>
+        <p>Five FNAF-style games in one! Sit in the office, watch the cameras, shut the doors and
+          keep your power up until 6 AM. Every animatronic has its own rule. Learn it, or get jumpscared.</p>
+        <p class="note">📱 Works great on phones: tap and hold the buttons on screen, and turn your phone sideways.</p>
+        <div class="btns">
+          <a class="gbtn dl" data-repo="DarkNights" data-fallback="https://github.com/CalvinGameFiles/DarkNights/releases/latest/download/DarkNights.apk">⬇ Download for Android</a>
+          <a class="gbtn play" href="https://calvingamefiles.github.io/DarkNights/" target="_blank" rel="noopener">▶ Play Online</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="game">
+      <div class="shot"><img src="games/fnaf-siege.jpg" alt="FNAF Siege title screen" loading="lazy"><span class="plat both">PC + Phone</span></div>
+      <div class="body">
+        <h3>FNAF Siege</h3>
+        <p>Build a fort, hide your animatronic army inside it, then knock down your enemy's fort before
+          they knock down yours! 50 levels to beat, masks with special powers, and you can play against a friend.</p>
+        <div class="btns">
+          <a class="gbtn dl" data-repo="fnaf-siege" data-fallback="https://github.com/CalvinGameFiles/fnaf-siege/releases/download/v0.5.3/FNAF-Siege-v0.5.3.apk">⬇ Download for Android</a>
+          <a class="gbtn play" href="https://calvingamefiles.github.io/fnaf-siege/" target="_blank" rel="noopener">▶ Play Online</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="game">
+      <div class="shot"><img src="games/tankfiles.jpg" alt="TankFiles title screen" loading="lazy"><span class="plat both">PC + Phone</span></div>
+      <div class="body">
+        <h3>TankFiles</h3>
+        <p>A tank battle game with 100 missions. Bounce your shots off walls, dodge mines and beat every
+          kind of enemy tank. Make your own levels and tanks, and battle your friends in multiplayer.</p>
+        <div class="btns">
+          <a class="gbtn dl" data-repo="tankfiles" data-fallback="https://github.com/CalvinGameFiles/tankfiles/releases/download/v1.2/TankFiles-v1.2.apk">⬇ Download for Android</a>
+          <a class="gbtn play" href="https://calvingamefiles.github.io/tankfiles/" target="_blank" rel="noopener">▶ Play Online</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="game">
+      <div class="shot"><img src="games/slayerfiles.jpg" alt="SlayerFiles title screen" loading="lazy"><span class="plat pc">PC Only</span></div>
+      <div class="body">
+        <h3>SlayerFiles</h3>
+        <p>A Five Nights at Freddy's first person shooter! Fight your way through six seasons of levels
+          with a pistol, a shotgun, a Ball Gun and a flashlight. Some animatronics can only be hurt by the light...</p>
+        <div class="warn">⚠️ <b>PC ONLY.</b> SlayerFiles needs a keyboard and mouse. It will <b>not</b> work on phones or tablets.</div>
+        <div class="btns">
+          <a class="gbtn dl" href="https://github.com/CalvinGameFiles/slayerfiles/archive/refs/heads/main.zip">⬇ Download for PC</a>
+          <a class="gbtn play" href="https://slayerfiles.pages.dev/" target="_blank" rel="noopener">▶ Play Online (PC)</a>
+        </div>
+        <p class="tiny">PC download: unzip it, then open <b>index.html</b>. Saves and the leaderboard only work in the online version.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="how">
+    <h3>📲 How to install on Android</h3>
+    <ol>
+      <li>Tap <b>Download for Android</b> on your phone.</li>
+      <li>Open the file when it finishes downloading.</li>
+      <li>If your phone asks, allow installing apps from your browser, then tap <b>Install</b>.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="videos">
+  <h2>Most Popular Videos</h2>
+  <p class="sub">The fan favourites. Hit play!</p>
+
+  <div class="videos">
+    <div class="video">
+      <a class="frame play" href="https://www.youtube.com/watch?v=PTOkNCBiHtg" data-id="PTOkNCBiHtg" target="_blank" rel="noopener" aria-label="Play We will come for you music video"><img src="https://i.ytimg.com/vi/PTOkNCBiHtg/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/PTOkNCBiHtg/hqdefault.jpg'" alt="We will come for you music video" loading="lazy"><span class="pbtn"></span></a>
+      <div class="info"><h3><span class="badge">#1</span>We Will Come For You (Original Song)</h3><div class="meta">960+ views</div></div>
+    </div>
+    <div class="video">
+      <a class="frame play" href="https://www.youtube.com/watch?v=6cmPvsCNQqI" data-id="6cmPvsCNQqI" target="_blank" rel="noopener" aria-label="Play Broken music video"><img src="https://i.ytimg.com/vi/6cmPvsCNQqI/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/6cmPvsCNQqI/hqdefault.jpg'" alt="Broken music video" loading="lazy"><span class="pbtn"></span></a>
+      <div class="info"><h3><span class="badge">#4</span>Broken (Original FNAF Song)</h3><div class="meta">170+ views</div></div>
+    </div>
+  </div>
+
+  <div class="shorts videos">
+    <div class="video">
+      <a class="frame play" href="https://www.youtube.com/shorts/vOtdOpT_x-U" data-id="vOtdOpT_x-U" target="_blank" rel="noopener" aria-label="Play FNAF VS Minecraft 4V4 battle Part 1"><img src="https://i.ytimg.com/vi/vOtdOpT_x-U/oardefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/vOtdOpT_x-U/hqdefault.jpg'" alt="FNAF VS Minecraft 4V4 battle Part 1" loading="lazy"><span class="pbtn"></span></a>
+      <div class="info"><h3><span class="badge short">#2 Short</span>FNAF VS Minecraft 4V4 Battle</h3><div class="meta">820+ views</div></div>
+    </div>
+    <div class="video">
+      <a class="frame play" href="https://www.youtube.com/shorts/6sgbgheuVZE" data-id="6sgbgheuVZE" target="_blank" rel="noopener" aria-label="Play Saddest scene in Gameworldscollide"><img src="https://i.ytimg.com/vi/6sgbgheuVZE/oardefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/6sgbgheuVZE/hqdefault.jpg'" alt="Saddest scene in Gameworldscollide" loading="lazy"><span class="pbtn"></span></a>
+      <div class="info"><h3><span class="badge short">#3 Short</span>Saddest Scene in GameWorldsCollide</h3><div class="meta">690+ views</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="gt">CalvinGameFiles</div>
+  <p>Find me on <a href="https://www.youtube.com/@CalvinGameFiles" target="_blank" rel="noopener" style="color:var(--flame-yellow)">YouTube @CalvinGameFiles</a></p>
+  <p>&copy; <span id="yr"></span> CalvinGameFiles</p>
+</footer>
+<script>
+  // Download buttons always grab the NEWEST Android app from each game's latest release, straight as a
+  // file (nobody lands on a GitHub page). If GitHub can't be reached, the button keeps its built-in link.
+  document.querySelectorAll(".gbtn.dl[data-repo]").forEach(a => {
+    a.href = a.dataset.fallback;
+    fetch("https://api.github.com/repos/CalvinGameFiles/" + a.dataset.repo + "/releases/latest")
+      .then(r => r.ok ? r.json() : null)
+      .then(rel => {
+        const apk = rel && (rel.assets || []).find(x => /\.apk$/i.test(x.name));
+        if (apk) a.href = apk.browser_download_url;
+      })
+      .catch(() => {});
+  });
+</script>
+<script>
+  // Click a thumbnail: play it right on the page when the site is online.
+  // YouTube refuses to play inside a page opened from a file (Error 153), so then it opens on YouTube instead.
+  if (location.protocol !== "file:") {
+    document.querySelectorAll(".play").forEach(a => a.addEventListener("click", e => {
+      e.preventDefault();
+      const f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + a.dataset.id + "?autoplay=1";
+      f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      const box = document.createElement("div"); box.className = "frame"; box.appendChild(f);
+      a.replaceWith(box);
+    }));
+  }
+</script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
